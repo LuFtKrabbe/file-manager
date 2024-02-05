@@ -7,6 +7,8 @@ import deleteFileMdl from './modules/deleteFileMdl.js';
 import copyFileMdl from './modules/copyFileMdl.js';
 import systemInfoMdl from './modules/systemInfoMdl.js';
 import calcHashFileMdl from './modules/calcHashFileMdl.js';
+import compressFileMdl from './modules/compressFileMdl.js';
+import decompressFileMdl from './modules/decompressFileMdl.js';
 
 export class AppController {
   constructor() {
@@ -72,6 +74,20 @@ export class AppController {
   calculateHash(path) {
     const pathToFile = this.currentPath + '/' + path;
     calcHashFileMdl(pathToFile);
+    this.showPath(this.currentPath);
+  }
+
+  compressFile(pathToFile, pathToDest) {
+    const pathToFileFull = this.currentPath + '/' + pathToFile;
+    const pathToDestFull = this.currentPath + '/' + pathToDest;
+    compressFileMdl(pathToFileFull, pathToDestFull);
+    this.showPath(this.currentPath);
+  }
+
+  decompressFile(pathToFile, pathToDest) {
+    const pathToFileFull = this.currentPath + '/' + pathToFile;
+    const pathToDestFull = this.currentPath + '/' + pathToDest;
+    decompressFileMdl(pathToFileFull, pathToDestFull);
     this.showPath(this.currentPath);
   }
 

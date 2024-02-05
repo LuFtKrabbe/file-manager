@@ -75,6 +75,18 @@ const appLaunch = () => {
       const path = data.toString().trim().slice(4).trim();
       appController.calculateHash(path);
     }
+    if (data.toString().trim().slice(0, 8) === 'compress') {
+      const pathFileDest = data.toString().trim().slice(8).trim();
+      const pathToFile = pathFileDest.slice(0, pathFileDest.lastIndexOf(' ')).trim();
+      const pathToDest = pathFileDest.slice(pathFileDest.lastIndexOf(' ')).trim();
+      appController.compressFile(pathToFile, pathToDest);
+    }
+    if (data.toString().trim().slice(0, 10) === 'decompress') {
+      const pathFileDest = data.toString().trim().slice(10).trim();
+      const pathToFile = pathFileDest.slice(0, pathFileDest.lastIndexOf(' ')).trim();
+      const pathToDest = pathFileDest.slice(pathFileDest.lastIndexOf(' ')).trim();
+      appController.decompressFile(pathToFile, pathToDest);
+    }
     if (data.toString().trim() === '.exit') {
       process.emit('close', data);
     }
