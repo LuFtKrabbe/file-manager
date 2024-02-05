@@ -71,6 +71,10 @@ const appLaunch = () => {
       const argument = data.toString().trim().slice(2).trim().slice(2);
       appController.getSystemInfo(argument);
     }
+    if (data.toString().trim().slice(0, 4) === 'hash') {
+      const path = data.toString().trim().slice(4).trim();
+      appController.calculateHash(path);
+    }
     if (data.toString().trim() === '.exit') {
       process.emit('close', data);
     }

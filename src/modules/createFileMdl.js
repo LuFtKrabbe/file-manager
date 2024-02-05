@@ -2,7 +2,6 @@ import { writeFile, access } from 'node:fs/promises';
 
 const createFileMdl = async (path) => {    
   try {
-    console.log(path);
     await access(path)
       .then(
       () => {

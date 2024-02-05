@@ -5,8 +5,8 @@ import createFileMdl from './modules/createFileMdl.js';
 import renameFileMdl from './modules/renameFileMdl.js';
 import deleteFileMdl from './modules/deleteFileMdl.js';
 import copyFileMdl from './modules/copyFileMdl.js';
-import { throws } from 'node:assert';
 import systemInfoMdl from './modules/systemInfoMdl.js';
+import calcHashFileMdl from './modules/calcHashFileMdl.js';
 
 export class AppController {
   constructor() {
@@ -66,6 +66,12 @@ export class AppController {
 
   getSystemInfo(argument) {
     systemInfoMdl(argument);
+    this.showPath(this.currentPath);
+  }
+
+  calculateHash(path) {
+    const pathToFile = this.currentPath + '/' + path;
+    calcHashFileMdl(pathToFile);
     this.showPath(this.currentPath);
   }
 
