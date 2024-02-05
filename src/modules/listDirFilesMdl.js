@@ -8,7 +8,7 @@ const listDirFilesMdl = async (currentPath) => {
   const fileNames = [];
 
   for (const fileOrDir of filesAndDirs) {
-    const fileStat = await stat(join(path, fileOrDir));
+    const fileStat = await stat(join(currentPath, fileOrDir));
     if (fileStat.isDirectory()) {
       dirNames.push(fileOrDir);
     } else {

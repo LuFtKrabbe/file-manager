@@ -27,67 +27,71 @@ const appLaunch = () => {
   process.stdout.write(`You are currently in ${currentPath}${EOL}`);
 
   process.stdin.on('data', data => {
-    if (data.toString().trim() === 'up') {
+    const handledInput = data.toString().trim();
+    const command = (handledInput.indexOf(' ') === -1) ? handledInput : handledInput.slice(0, handledInput.indexOf(' '));
+    const handledCommandArgs = handledInput.slice(command.length).trim();
+
+    if (command === 'up') {
       appController.up();
     }
-    if (data.toString().trim().slice(0, 2) === 'cd') {
-      const path = data.toString().trim().slice(2).trim();
-      appController.cd(path);
-    }
-    if (data.toString().trim().slice(0, 2) === 'ls') {
+    if (command === 'ls') {
       appController.ls();
     }
-    if (data.toString().trim().slice(0, 3) === 'cat') {
-      const path = data.toString().trim().slice(3).trim();
+    if (command === 'cd') {
+      const path = handledCommandArgs;
+      appController.cd(path);
+    }
+    if (command === 'cat') {
+      const path = handledCommandArgs;
       appController.cat(path);
     }
-    if (data.toString().trim().slice(0, 3) === 'add') {
-      const path = data.toString().trim().slice(3).trim();
+    if (command === 'add') {
+      const path = handledCommandArgs;
       appController.add(path);
     }
-    if (data.toString().trim().slice(0, 2) === 'rn') {
-      const pathAndName = data.toString().trim().slice(2).trim();
+    if (command === 'rm') {
+      const path = handledCommandArgs;
+      appController.rm(path);
+    }
+    if (command === 'hash') {
+      const path = handledCommandArgs;
+      appController.calculateHash(path);
+    }
+    if (command === 'os') {
+      const argument = handledInput.slice(handledInput.lastIndexOf('-') + 1);
+      appController.getSystemInfo(argument);
+    }
+    if (command === 'rn') {
+      const pathAndName = handledCommandArgs;
       const path = pathAndName.slice(0, pathAndName.lastIndexOf(' ')).trim();
       const name = pathAndName.slice(pathAndName.lastIndexOf(' ')).trim();
       appController.rn(path, name);
     }
-    if (data.toString().trim().slice(0, 2) === 'rm') {
-      const path = data.toString().trim().slice(2).trim();
-      appController.rm(path);
-    }
-    if (data.toString().trim().slice(0, 2) === 'cp') {
-      const pathAndName = data.toString().trim().slice(2).trim();
+    if (command === 'cp') {
+      const pathAndName = handledCommandArgs;
       const path = pathAndName.slice(0, pathAndName.lastIndexOf(' ')).trim();
       const name = pathAndName.slice(pathAndName.lastIndexOf(' ')).trim();
       appController.cp(path, name);
     }
-    if (data.toString().trim().slice(0, 2) === 'mv') {
-      const pathAndName = data.toString().trim().slice(2).trim();
+    if (command === 'mv') {
+      const pathAndName = handledCommandArgs;
       const path = pathAndName.slice(0, pathAndName.lastIndexOf(' ')).trim();
       const name = pathAndName.slice(pathAndName.lastIndexOf(' ')).trim();
       appController.mv(path, name);
     }
-    if (data.toString().trim().slice(0, 2) === 'os') {
-      const argument = data.toString().trim().slice(2).trim().slice(2);
-      appController.getSystemInfo(argument);
-    }
-    if (data.toString().trim().slice(0, 4) === 'hash') {
-      const path = data.toString().trim().slice(4).trim();
-      appController.calculateHash(path);
-    }
-    if (data.toString().trim().slice(0, 8) === 'compress') {
-      const pathFileDest = data.toString().trim().slice(8).trim();
+    if (command === 'compress') {
+      const pathFileDest = handledCommandArgs;
       const pathToFile = pathFileDest.slice(0, pathFileDest.lastIndexOf(' ')).trim();
       const pathToDest = pathFileDest.slice(pathFileDest.lastIndexOf(' ')).trim();
       appController.compressFile(pathToFile, pathToDest);
     }
-    if (data.toString().trim().slice(0, 10) === 'decompress') {
-      const pathFileDest = data.toString().trim().slice(10).trim();
+    if (command === 'decompress') {
+      const pathFileDest = handledCommandArgs;
       const pathToFile = pathFileDest.slice(0, pathFileDest.lastIndexOf(' ')).trim();
       const pathToDest = pathFileDest.slice(pathFileDest.lastIndexOf(' ')).trim();
       appController.decompressFile(pathToFile, pathToDest);
     }
-    if (data.toString().trim() === '.exit') {
+    if (command === '.exit') {
       process.emit('close', data);
     }
   });

@@ -1,20 +1,19 @@
 import { writeFile, access } from 'node:fs/promises';
 
-const createFileMdl = async (path) => {    
+const createFileMdl = async(pathToNewFile) => {    
   try {
-    await access(path)
+    await access(pathToNewFile)
       .then(
       () => {
         console.log('The file already exists!');
-        throw new Error();
       },
       () => {
         console.log('File does not exist, start to creating a new one...');
       })
-    await writeFile(path, '');
+    await writeFile(pathToNewFile, '');
     console.log('The file is successfully created!');
   } catch (err) {
-    throw new Error('FS operation failed')
+    console.log('Such file could not be created!');
   }
 };
 

@@ -1,5 +1,5 @@
 import { homedir, EOL, platform } from 'node:os'
-import { resolve } from 'node:path'
+import { isAbsolute, resolve } from 'node:path'
 import listDirFilesMdl from './modules/listDirFilesMdl.js';
 import readFileMdl from './modules/readFileMdl.js';
 import createFileMdl from './modules/createFileMdl.js';
@@ -11,6 +11,7 @@ import calcHashFileMdl from './modules/calcHashFileMdl.js';
 import compressFileMdl from './modules/compressFileMdl.js';
 import decompressFileMdl from './modules/decompressFileMdl.js';
 import { stat } from 'node:fs/promises';
+import resolvePath from './utils.js';
 
 export class AppController {
   constructor() {
@@ -31,7 +32,7 @@ export class AppController {
   }
 
   async cd(path) {
-    const resolvedPath = resolve(this.currentPath, path);
+    const resolvedPath = resolvePath(this.currentPath, path);
 
     try {
       const fileStat = await stat(resolvedPath);
@@ -45,6 +46,7 @@ export class AppController {
       console.log('|   Wrong path to directory!   |')
       console.log('--------------------------------');
     }
+
     this.showPath();
   }
 
@@ -53,15 +55,15 @@ export class AppController {
     this.showPath(this.currentPath);
   }
 
-  cat(path) {
-    const pathToReadFile = this.currentPath + '/' + path;
-    readFileMdl(pathToReadFile);
+  async cat(pathToFile) {
+    const resolvedPath = resolvePath(this.currentPath, pathToFile);
+    await readFileMdl(resolvedPath);
     this.showPath(this.currentPath);
   }
 
-  add(path) {
-    const pathToReadFile = this.currentPath + '/' + path;
-    createFileMdl(pathToReadFile);
+  add(newFileName) {
+    const pathToNewFile = this.currentPath + this.separator + newFileName;
+    createFileMdl(pathToNewFile);
     this.showPath(this.currentPath);
   }
 
@@ -83,9 +85,9 @@ export class AppController {
     this.showPath(this.currentPath);
   }
 
-  rm(path) {
-    const pathToFile = this.currentPath + '/' + path;
-    deleteFileMdl(pathToFile);
+  async rm(path) {
+    const resolvedPath = resolvePath(this.currentPath, path);
+    await deleteFileMdl(resolvedPath);
     this.showPath(this.currentPath);
   }
 
@@ -94,23 +96,23 @@ export class AppController {
     this.showPath(this.currentPath);
   }
 
-  calculateHash(path) {
-    const pathToFile = this.currentPath + '/' + path;
-    calcHashFileMdl(pathToFile);
+  async calculateHash(pathToFile) {
+    const resolvedPath = resolvePath(this.currentPath, pathToFile);
+    await calcHashFileMdl(resolvedPath);
     this.showPath(this.currentPath);
   }
 
-  compressFile(pathToFile, pathToDest) {
-    const pathToFileFull = this.currentPath + '/' + pathToFile;
-    const pathToDestFull = this.currentPath + '/' + pathToDest;
-    compressFileMdl(pathToFileFull, pathToDestFull);
+  async compressFile(pathToFile, pathToDest) {
+    const resolvedPathFile = resolvePath(this.currentPath, pathToFile);
+    const resolvedPathDest  = resolvePath(this.currentPath, pathToDest);
+    await compressFileMdl(resolvedPathFile, resolvedPathDest);
     this.showPath(this.currentPath);
   }
 
-  decompressFile(pathToFile, pathToDest) {
-    const pathToFileFull = this.currentPath + '/' + pathToFile;
-    const pathToDestFull = this.currentPath + '/' + pathToDest;
-    decompressFileMdl(pathToFileFull, pathToDestFull);
+  async decompressFile(pathToFile, pathToDest) {
+    const resolvedPathFile = resolvePath(this.currentPath, pathToFile);
+    const resolvedPathDest  = resolvePath(this.currentPath, pathToDest);
+    await decompressFileMdl(resolvedPathFile, resolvedPathDest);
     this.showPath(this.currentPath);
   }
 
