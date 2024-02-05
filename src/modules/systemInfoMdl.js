@@ -1,35 +1,41 @@
+import { Console } from 'node:console';
 import { EOL, cpus, homedir, userInfo, arch } from 'node:os'
 
 const systemInfoMdl = (argument) => {
-  if (argument === 'EOL') {
-    process.stdout.write(`End-Of-Line: ${JSON.stringify(EOL)}`);
-    process.stdout.write(EOL);
-  }
+  switch(argument) {
+    case 'EOL':
+      process.stdout.write(`End-Of-Line: ${JSON.stringify(EOL)}`);
+      process.stdout.write(EOL);
+    break;
 
-  if (argument === 'cpus') {
-    const cpuArr = cpus();
-    const cpuTable = cpuArr.map((cpu, i) => (
-      {Number: i + 1, ['Model']: cpu.model, ['Speed, GHz']: cpu.speed}
-    ))
-    const cpuTableTransformed = cpuTable.reduce((acc, {Number, ...x}) => { acc[Number] = x; return acc }, {});
-    console.table(cpuTableTransformed);
-    process.stdout.write(EOL);
-  }
+    case 'cpus':
+      const cpuArr = cpus();
+      const cpuTable = cpuArr.map((cpu, i) => (
+        {Number: i + 1, ['Model']: cpu.model, ['Speed, GHz']: cpu.speed}
+      ))
+      const cpuTableTransformed = cpuTable.reduce((acc, {Number, ...x}) => { acc[Number] = x; return acc }, {});
+      console.table(cpuTableTransformed);
+      process.stdout.write(EOL);
+    break;
 
-  if (argument === 'homedir') {
-    process.stdout.write(`Home directory: ${homedir()}`);
-    process.stdout.write(EOL);
-  }
+    case 'homedir':
+      process.stdout.write(`Home directory: ${homedir()}`);
+      process.stdout.write(EOL);
+    break;
 
-  if (argument === 'username') {
-    const username = userInfo().username;
-    process.stdout.write(`System user name: ${username}`);
-    process.stdout.write(EOL);
-  }
+    case 'username':
+      const username = userInfo().username;
+      process.stdout.write(`System user name: ${username}`);
+      process.stdout.write(EOL);
+    break;
 
-  if (argument === 'architecture') {
-    process.stdout.write(`Architecture: ${arch()}`);
-    process.stdout.write(EOL);
+    case 'architecture':
+      process.stdout.write(`Architecture: ${arch()}`);
+      process.stdout.write(EOL);
+    break;
+    
+    default:
+    console.log('Input correct argument!');
   }
 };
 
