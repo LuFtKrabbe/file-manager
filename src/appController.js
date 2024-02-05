@@ -1,4 +1,5 @@
-import { homedir, EOL } from 'node:os'
+import { homedir, EOL, platform } from 'node:os'
+import { resolve } from 'node:path'
 import listDirFilesMdl from './modules/listDirFilesMdl.js';
 import readFileMdl from './modules/readFileMdl.js';
 import createFileMdl from './modules/createFileMdl.js';
@@ -9,24 +10,46 @@ import systemInfoMdl from './modules/systemInfoMdl.js';
 import calcHashFileMdl from './modules/calcHashFileMdl.js';
 import compressFileMdl from './modules/compressFileMdl.js';
 import decompressFileMdl from './modules/decompressFileMdl.js';
+import { stat } from 'node:fs/promises';
 
 export class AppController {
   constructor() {
     this.currentPath = homedir();
+    this.platform = platform();
+    this.separator = (platform() === 'win32') ? '\\' : '/';
   }
 
   up() {
-    this.currentPath = this.currentPath.slice(0, this.currentPath.lastIndexOf('/'));
+    const firstSeparator = this.currentPath.indexOf(`${this.separator}`);
+    const lastSeparator = this.currentPath.lastIndexOf(`${this.separator}`);
+    if (firstSeparator === lastSeparator) {
+      this.currentPath = this.currentPath.slice(0, lastSeparator + 1);
+    } else {
+      this.currentPath = this.currentPath.slice(0, lastSeparator);
+    }
     this.showPath();
   }
 
-  cd(path) {
-    this.currentPath = this.currentPath + '/' + path;
+  async cd(path) {
+    const resolvedPath = resolve(this.currentPath, path);
+
+    try {
+      const fileStat = await stat(resolvedPath);
+      if (fileStat.isDirectory()) {
+        this.currentPath = resolvedPath;
+      } else {
+        throw new Error();
+      }
+    } catch {
+      console.log('--------------------------------');
+      console.log('|   Wrong path to directory!   |')
+      console.log('--------------------------------');
+    }
     this.showPath();
   }
 
-  ls() {
-    listDirFilesMdl(this.currentPath);
+  async ls() {
+    await listDirFilesMdl(this.currentPath);
     this.showPath(this.currentPath);
   }
 
