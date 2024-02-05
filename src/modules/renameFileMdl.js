@@ -2,7 +2,7 @@ import { dirname, join } from 'node:path';
 import { rename, access } from 'node:fs/promises';
 
 const renameFileMdl = async (filePath, newFileName) => {
-    const dirPath = dirname(filePath);
+/*     const dirPath = dirname(filePath);
     
     try {
         await access(filePath)
@@ -21,7 +21,7 @@ const renameFileMdl = async (filePath, newFileName) => {
         console.log('The file is successfully renamed!');
     } catch {
         throw new Error('FS operation failed');
-    }
+    } */
 };
 
 export default renameFileMdl;

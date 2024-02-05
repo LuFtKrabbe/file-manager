@@ -80,8 +80,8 @@ export class AppController {
   }
 
   mv(pathToFile, newDirName) {
-    this.cp(pathToFile, newDirName);
-    this.rm(pathToFile);
+/*     this.cp(pathToFile, newDirName);
+    this.rm(pathToFile); */
     this.showPath(this.currentPath);
   }
 
