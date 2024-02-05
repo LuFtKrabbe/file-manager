@@ -1,9 +1,11 @@
 import { homedir, EOL } from 'node:os'
-import appLaunch from './appLauncher.js';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import list from './modules/list.js';
-
+import listDirFilesMdl from './modules/listDirFilesMdl.js';
+import readFileMdl from './modules/readFileMdl.js';
+import createFileMdl from './modules/createFileMdl.js';
+import renameFileMdl from './modules/renameFileMdl.js';
+import deleteFileMdl from './modules/deleteFileMdl.js';
+import copyFileMdl from './modules/copyFileMdl.js';
+import { throws } from 'node:assert';
 
 export class AppController {
   constructor() {
@@ -17,12 +19,47 @@ export class AppController {
 
   cd(path) {
     this.currentPath = this.currentPath + '/' + path;
-    console.log(this.currentPath);
     this.showPath();
   }
 
   ls() {
-    list(this.currentPath);
+    listDirFilesMdl(this.currentPath);
+    this.showPath(this.currentPath);
+  }
+
+  cat(path) {
+    const pathToReadFile = this.currentPath + '/' + path;
+    readFileMdl(pathToReadFile);
+    this.showPath(this.currentPath);
+  }
+
+  add(path) {
+    const pathToReadFile = this.currentPath + '/' + path;
+    createFileMdl(pathToReadFile);
+    this.showPath(this.currentPath);
+  }
+
+  rn(path, newFileName) {
+    const pathToFile = this.currentPath + '/' + path;
+    renameFileMdl(pathToFile, newFileName);
+    this.showPath(this.currentPath);
+  }
+
+  cp(pathToFile, newDirName) {
+    const pathToFileFull = this.currentPath + '/' + pathToFile;
+    copyFileMdl(pathToFileFull, newDirName);
+    this.showPath(this.currentPath);
+  }
+
+  mv(pathToFile, newDirName) {
+    this.cp(pathToFile, newDirName);
+    this.rm(pathToFile);
+    this.showPath(this.currentPath);
+  }
+
+  rm(path) {
+    const pathToFile = this.currentPath + '/' + path;
+    deleteFileMdl(pathToFile);
     this.showPath(this.currentPath);
   }
 

@@ -37,6 +37,36 @@ const appLaunch = () => {
     if (data.toString().trim().slice(0, 2) === 'ls') {
       appController.ls();
     }
+    if (data.toString().trim().slice(0, 3) === 'cat') {
+      const path = data.toString().trim().slice(3).trim();
+      appController.cat(path);
+    }
+    if (data.toString().trim().slice(0, 3) === 'add') {
+      const path = data.toString().trim().slice(3).trim();
+      appController.add(path);
+    }
+    if (data.toString().trim().slice(0, 2) === 'rn') {
+      const pathAndName = data.toString().trim().slice(2).trim();
+      const path = pathAndName.slice(0, pathAndName.lastIndexOf(' ')).trim();
+      const name = pathAndName.slice(pathAndName.lastIndexOf(' ')).trim();
+      appController.rn(path, name);
+    }
+    if (data.toString().trim().slice(0, 2) === 'rm') {
+      const path = data.toString().trim().slice(2).trim();
+      appController.rm(path);
+    }
+    if (data.toString().trim().slice(0, 2) === 'cp') {
+      const pathAndName = data.toString().trim().slice(2).trim();
+      const path = pathAndName.slice(0, pathAndName.lastIndexOf(' ')).trim();
+      const name = pathAndName.slice(pathAndName.lastIndexOf(' ')).trim();
+      appController.cp(path, name);
+    }
+    if (data.toString().trim().slice(0, 2) === 'mv') {
+      const pathAndName = data.toString().trim().slice(2).trim();
+      const path = pathAndName.slice(0, pathAndName.lastIndexOf(' ')).trim();
+      const name = pathAndName.slice(pathAndName.lastIndexOf(' ')).trim();
+      appController.mv(path, name);
+    }
     if (data.toString().trim() === '.exit') {
       process.emit('close', data);
     }

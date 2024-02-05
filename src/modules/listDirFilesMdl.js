@@ -2,7 +2,7 @@ import { join } from 'node:path';
 import { stat } from 'node:fs/promises';
 import { readdir } from 'node:fs/promises';
 
-const list = async (path) => {
+const listDirFilesMdl = async (path) => {
     const filesAndDirs = await readdir(path);
     const dirNames = [];
     const fileNames = [];
@@ -22,4 +22,4 @@ const list = async (path) => {
     console.table([...dirs, ...files]);
 };
 
-export default list;
+export default listDirFilesMdl;
