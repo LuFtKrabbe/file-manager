@@ -6,6 +6,7 @@ import renameFileMdl from './modules/renameFileMdl.js';
 import deleteFileMdl from './modules/deleteFileMdl.js';
 import copyFileMdl from './modules/copyFileMdl.js';
 import { throws } from 'node:assert';
+import systemInfoMdl from './modules/systemInfoMdl.js';
 
 export class AppController {
   constructor() {
@@ -60,6 +61,11 @@ export class AppController {
   rm(path) {
     const pathToFile = this.currentPath + '/' + path;
     deleteFileMdl(pathToFile);
+    this.showPath(this.currentPath);
+  }
+
+  getSystemInfo(argument) {
+    systemInfoMdl(argument);
     this.showPath(this.currentPath);
   }
 

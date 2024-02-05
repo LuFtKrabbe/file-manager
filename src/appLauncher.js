@@ -67,6 +67,10 @@ const appLaunch = () => {
       const name = pathAndName.slice(pathAndName.lastIndexOf(' ')).trim();
       appController.mv(path, name);
     }
+    if (data.toString().trim().slice(0, 2) === 'os') {
+      const argument = data.toString().trim().slice(2).trim().slice(2);
+      appController.getSystemInfo(argument);
+    }
     if (data.toString().trim() === '.exit') {
       process.emit('close', data);
     }
