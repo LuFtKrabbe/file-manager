@@ -2,7 +2,7 @@ import { readFile, stat } from 'node:fs/promises';
 
 const readFileMdl = async (pathToFile) => { 
   try {
-    fileStat = await stat(pathToFile);
+    const fileStat = await stat(pathToFile);
     if (fileStat.isFile()) {
       console.log(`Start reading the file:`);
       console.log('--------------------------------');

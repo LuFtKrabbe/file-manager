@@ -6,6 +6,7 @@ const createFileMdl = async(pathToNewFile) => {
       .then(
       () => {
         console.log('The file already exists!');
+        throw new Error();
       },
       () => {
         console.log('File does not exist, start to creating a new one...');
