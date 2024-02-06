@@ -34,15 +34,18 @@ My base path after program launching: /home/luftkrabbe
 ```
 - rn path_to_file new_filename
 ```bash
-  Will be implemented soon
+  rn ./file-manager/src/text.txt renamedText.txt  (relative)
+  rn /home/luftkrabbe/file-manager/src/text.txt renamedText.txt (absolute)
 ```
 - cp path_to_file path_to_new_directory
 ```bash
-  Will be implemented soon
+  cp ./file-manager/src/text.txt ./file-manager/src/copyFolder  (relative)
+  cp /home/luftkrabbe/file-manager/src/text.txt /home/luftkrabbe/file-manager/src/copyFolder (absolute)
 ```
 - mv path_to_file path_to_new_directory
 ```bash
-  Will be implemented soon
+  mv ./file-manager/src/text.txt ./file-manager/src/copyFolder  (relative)
+  mv /home/luftkrabbe/file-manager/src/text.txt /home/luftkrabbe/file-manager/src/copyFolder (absolute)
 ```
 - rm path_to_file
 ```bash
