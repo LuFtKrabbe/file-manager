@@ -67,22 +67,24 @@ export class AppController {
     this.showPath(this.currentPath);
   }
 
-  rn(path, newFileName) {
-    const pathToFile = this.currentPath + '/' + path;
-    renameFileMdl(pathToFile, newFileName);
+  async rn(pathToFile, newFileName) {
+    const resolvedPath = resolvePath(this.currentPath, pathToFile);
+    await renameFileMdl(resolvedPath, newFileName);
     this.showPath(this.currentPath);
   }
 
-  cp(pathToFile, newDirName) {
-    const pathToFileFull = this.currentPath + '/' + pathToFile;
-    copyFileMdl(pathToFileFull, newDirName);
+  async cp(pathToFile, pathToNewDir) {
+    const resolvedPathFile = resolvePath(this.currentPath, pathToFile);
+    const resolvedPathDir = resolvePath(this.currentPath, pathToNewDir);
+    await copyFileMdl(resolvedPathFile, resolvedPathDir);
     this.showPath(this.currentPath);
   }
 
-  mv(pathToFile, newDirName) {
-/*     this.cp(pathToFile, newDirName);
-    this.rm(pathToFile); */
-    this.showPath(this.currentPath);
+  async mv(pathToFile, pathToNewDir) {
+    const resolvedPathFile = resolvePath(this.currentPath, pathToFile);
+    const resolvedPathDir = resolvePath(this.currentPath, pathToNewDir);
+    await this.cp(resolvedPathFile, resolvedPathDir);
+    await this.rm(resolvedPathFile);
   }
 
   async rm(path) {

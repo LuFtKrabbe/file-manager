@@ -1,20 +1,24 @@
 import { dirname, join } from 'node:path';
-import { access, copyFile, mkdir, readdir } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
+import { access, mkdir } from 'node:fs/promises';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
 
-const copyFileMdl = async (pathToFile, newDirName) => {
-/*   const dirPath = dirname(pathToFile);
+const copyFileMdl = async (pathToFile, pathToNewDirName) => {
+  const dirPath = dirname(pathToFile);
   const fileName = pathToFile.slice(dirPath.length + 1);
-  const readStream = createReadStream(pathToFile);
-  const writeStream = createWriteStream(join(newDirName, fileName));
 
   try {
+    await access(pathToFile);
+    await access(dirname(pathToNewDirName));
+    await access(pathToNewDirName).catch(() => {
+      mkdir(pathToNewDirName);
+    });
+    const readStream = createReadStream(pathToFile);
+    const writeStream = createWriteStream(join(pathToNewDirName, fileName));
     await pipeline(readStream, writeStream);
-  } catch (err) {
-    console.error(err);
-  } */
+  } catch {
+    console.log('Something wrong with copying');
+  }
 };
 
 export default copyFileMdl;
